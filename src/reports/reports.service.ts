@@ -112,12 +112,17 @@ export class ReportsService {
         branch: true,
         patient: true,
         doctor: true,
+        // appointment: {
+        //   include: {
+        //     triages: {
+        //       orderBy: { arrivedAt: 'desc' },
+        //       take: 1,
+        //     },
+        //   },
+        // },
         appointment: {
           include: {
-            triages: {
-              orderBy: { arrivedAt: 'desc' },
-              take: 1,
-            },
+            triages: true,
           },
         },
         prescriptions: {
@@ -166,7 +171,8 @@ export class ReportsService {
       take: 20,
     });
 
-    const latestTriage = consultation.appointment.triages[0];
+    // const latestTriage = consultation.appointment.triages[0];
+    const latestTriage = consultation.appointment?.triages;
     const reference = consultation.consultationNumber;
 
     const buffer = await createHospitalPdfBuffer(
